@@ -1,65 +1,115 @@
-import Image from "next/image";
+'use client';
+
+import { useEffect, useState } from 'react';
+import Navbar from './components/Navbar';
+
+interface Article {
+  id: number;
+  title: string;
+  summary: string;
+  source: string;
+  url: string;
+  published_date: string;
+}
 
 export default function Home() {
+  const [articles, setArticles] = useState<Article[]>([]);
+  const [filteredArticles, setFilteredArticles] = useState<Article[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('/api/articles')
+      .then((res) => res.json())
+      .then((data) => {
+        setArticles(data);
+        setFilteredArticles(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error('Error fetching articles:', error);
+        setLoading(false);
+      });
+  }, []);
+
+  const handleSearch = (query: string) => {
+    if (!query.trim()) {
+      setFilteredArticles(articles);
+      return;
+    }
+
+    const lowercaseQuery = query.toLowerCase();
+    const filtered = articles.filter(
+      (article) =>
+        article.title.toLowerCase().includes(lowercaseQuery) ||
+        article.summary.toLowerCase().includes(lowercaseQuery) ||
+        article.source.toLowerCase().includes(lowercaseQuery)
+    );
+    setFilteredArticles(filtered);
+  };
+
+  if (loading) {
+    return (
+      <>
+        <Navbar onSearch={handleSearch} />
+        <div className="min-h-screen flex items-center justify-center">
+          <p className="text-xl">Chargement des articles...</p>
+        </div>
+      </>
+    );
+  }
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <>
+      <Navbar onSearch={handleSearch} />
+      <main className="min-h-screen p-8 bg-gray-50">
+        <div className="max-w-6xl mx-auto">
+          <h1 className="text-4xl font-bold mb-8 text-gray-900">
+            Articles des Concurrents
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+          
+          {filteredArticles.length === 0 ? (
+            <p className="text-gray-600">
+              {articles.length === 0 
+                ? "Aucun article trouvé. Ajoutez des données à la base de données!"
+                : "Aucun résultat pour cette recherche."}
+            </p>
+          ) : (
+            <div className="grid gap-6">
+              {filteredArticles.map((article) => (
+              <div
+                key={article.id}
+                className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
+              >
+                <div className="flex justify-between items-start mb-3">
+                  <h2 className="text-2xl font-semibold text-gray-900">
+                    {article.title}
+                  </h2>
+                  <span className="text-sm text-gray-500 whitespace-nowrap ml-4">
+                    {new Date(article.published_date).toLocaleDateString()}
+                  </span>
+                </div>
+                
+                <p className="text-gray-700 mb-4">{article.summary}</p>
+                
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-medium text-blue-600">
+                    {article.source}
+                  </span>
+                  <a
+                    href={article.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                  >
+                    Lire plus →
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </main>
+    </>
   );
 }
