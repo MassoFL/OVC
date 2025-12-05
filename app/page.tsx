@@ -21,12 +21,21 @@ export default function Home() {
     fetch('/api/articles')
       .then((res) => res.json())
       .then((data) => {
-        setArticles(data);
-        setFilteredArticles(data);
+        // Vérifier que data est un tableau
+        if (Array.isArray(data)) {
+          setArticles(data);
+          setFilteredArticles(data);
+        } else {
+          console.error('API returned non-array data:', data);
+          setArticles([]);
+          setFilteredArticles([]);
+        }
         setLoading(false);
       })
       .catch((error) => {
         console.error('Error fetching articles:', error);
+        setArticles([]);
+        setFilteredArticles([]);
         setLoading(false);
       });
   }, []);
@@ -61,14 +70,10 @@ export default function Home() {
   return (
     <>
       <Navbar onSearch={handleSearch} />
-      <main className="min-h-screen p-8 bg-gray-50">
+      <main className="min-h-screen p-8 bg-black">
         <div className="max-w-6xl mx-auto">
-          <h1 className="text-4xl font-bold mb-8 text-gray-900">
-            Articles des Concurrents
-          </h1>
-          
           {filteredArticles.length === 0 ? (
-            <p className="text-gray-600">
+            <p className="text-gray-400">
               {articles.length === 0 
                 ? "Aucun article trouvé. Ajoutez des données à la base de données!"
                 : "Aucun résultat pour cette recherche."}
@@ -78,28 +83,28 @@ export default function Home() {
               {filteredArticles.map((article) => (
               <div
                 key={article.id}
-                className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
+                className="bg-gray-900 rounded-lg shadow-lg p-6 hover:shadow-xl transition-all hover:scale-[1.02] border border-gray-800"
               >
                 <div className="flex justify-between items-start mb-3">
-                  <h2 className="text-2xl font-semibold text-gray-900">
+                  <h2 className="text-2xl font-semibold text-white">
                     {article.title}
                   </h2>
-                  <span className="text-sm text-gray-500 whitespace-nowrap ml-4">
-                    {new Date(article.published_date).toLocaleDateString()}
+                  <span className="text-sm text-gray-400 whitespace-nowrap ml-4">
+                    {new Date(article.published_date).toLocaleDateString('fr-FR')}
                   </span>
                 </div>
                 
-                <p className="text-gray-700 mb-4">{article.summary}</p>
+                <p className="text-gray-300 mb-4 leading-relaxed">{article.summary}</p>
                 
                 <div className="flex justify-between items-center">
-                  <span className="text-sm font-medium text-blue-600">
+                  <span className="text-sm font-medium text-blue-400 bg-blue-500/10 px-3 py-1 rounded-full">
                     {article.source}
                   </span>
                   <a
                     href={article.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                    className="text-[#ECC800] hover:text-[#ECC800]/80 text-sm font-medium flex items-center gap-2 transition-colors"
                   >
                     Lire plus →
                   </a>

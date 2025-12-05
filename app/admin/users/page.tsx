@@ -81,82 +81,82 @@ export default function UsersPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-xl">Chargement...</p>
+      <div className="min-h-screen flex items-center justify-center bg-[#000000]">
+        <p className="text-xl text-white">Chargement...</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
+    <div className="min-h-screen bg-[#000000] p-8">
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900">
+          <h1 className="text-4xl font-bold text-white">
             Gestion des Utilisateurs
           </h1>
           <button
             onClick={() => router.push('/')}
-            className="text-blue-600 hover:text-blue-800"
+            className="text-[#3AB5C2] hover:text-[#3AB5C2]/80 transition-colors"
           >
             ← Retour aux articles
           </button>
         </div>
 
         {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          <div className="bg-[#EC665C]/10 border border-[#EC665C] text-[#EC665C] px-4 py-3 rounded mb-4">
             {error}
           </div>
         )}
 
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+        <div className="bg-[#213265] rounded-lg shadow-lg overflow-hidden border border-[#3AB5C2]/20">
+          <table className="min-w-full divide-y divide-[#3AB5C2]/20">
+            <thead className="bg-[#000000]/30">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                   Nom
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                   Email
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                   Rôle
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                   Date d'inscription
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="divide-y divide-[#3AB5C2]/20">
               {users.map((user) => (
-                <tr key={user.id}>
+                <tr key={user.id} className="hover:bg-[#000000]/30 transition-colors">
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900">
+                    <div className="text-sm font-medium text-white">
                       {user.name}
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-500">{user.email}</div>
+                    <div className="text-sm text-gray-300">{user.email}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <select
                       value={user.role}
                       onChange={(e) => handleRoleChange(user.id, e.target.value)}
-                      className="text-sm border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="text-sm bg-[#000000] border border-[#3AB5C2]/30 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-[#3AB5C2] text-white"
                     >
                       <option value="user">Utilisateur</option>
                       <option value="admin">Admin</option>
                     </select>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                     {new Date(user.created_at).toLocaleDateString('fr-FR')}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
                     <button
                       onClick={() => handleDelete(user.id)}
-                      className="text-red-600 hover:text-red-800"
+                      className="text-[#EC665C] hover:text-[#EC665C]/80 transition-colors"
                     >
                       Supprimer
                     </button>
@@ -167,13 +167,13 @@ export default function UsersPage() {
           </table>
           
           {users.length === 0 && (
-            <div className="text-center py-8 text-gray-500">
+            <div className="text-center py-8 text-gray-400">
               Aucun utilisateur trouvé
             </div>
           )}
         </div>
 
-        <div className="mt-4 text-sm text-gray-600">
+        <div className="mt-4 text-sm text-gray-400">
           Total: {users.length} utilisateur{users.length > 1 ? 's' : ''}
         </div>
       </div>

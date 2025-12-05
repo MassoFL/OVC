@@ -53,13 +53,13 @@ export default function Navbar({ onSearch }: NavbarProps) {
   };
 
   return (
-    <nav className="bg-white shadow-md">
+    <nav className="bg-black shadow-lg border-b border-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <h1 className="text-2xl font-bold text-blue-600">
-              CompetitorWatch
+            <h1 className="text-2xl font-bold text-blue-500">
+              OCV Partenor
             </h1>
           </div>
 
@@ -72,11 +72,11 @@ export default function Navbar({ onSearch }: NavbarProps) {
                   placeholder="Rechercher des articles..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-white placeholder-gray-500"
                 />
                 <button
                   type="submit"
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-blue-600"
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-[#3AB5C2] transition-colors"
                 >
                   <svg
                     className="w-5 h-5"
@@ -102,14 +102,14 @@ export default function Navbar({ onSearch }: NavbarProps) {
               <div className="relative" ref={dropdownRef}>
                 <button
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="flex items-center space-x-2 hover:bg-gray-50 rounded-lg px-3 py-2 transition-colors"
+                  className="flex items-center space-x-2 hover:bg-gray-900 rounded-lg px-3 py-2 transition-colors"
                 >
-                  <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-semibold">
+                  <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-semibold">
                     {user.name?.charAt(0).toUpperCase()}
                   </div>
-                  <span className="text-gray-700 font-medium">{user.name}</span>
+                  <span className="text-white font-medium">{user.name}</span>
                   <svg
-                    className={`w-4 h-4 text-gray-500 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`}
+                    className={`w-4 h-4 text-gray-400 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`}
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -119,10 +119,10 @@ export default function Navbar({ onSearch }: NavbarProps) {
                 </button>
 
                 {isDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
-                    <div className="px-4 py-2 border-b border-gray-200">
-                      <p className="text-sm font-medium text-gray-900">{user.name}</p>
-                      <p className="text-xs text-gray-500">{(user as any).email}</p>
+                  <div className="absolute right-0 mt-2 w-56 bg-gray-900 rounded-lg shadow-xl border border-gray-700 py-2 z-50">
+                    <div className="px-4 py-2 border-b border-gray-700">
+                      <p className="text-sm font-medium text-white">{user.name}</p>
+                      <p className="text-xs text-gray-400">{(user as any).email}</p>
                     </div>
 
                     {(user as any).role === 'admin' && (
@@ -132,7 +132,7 @@ export default function Navbar({ onSearch }: NavbarProps) {
                             router.push('/admin/keywords');
                             setIsDropdownOpen(false);
                           }}
-                          className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center space-x-2"
+                          className="w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-800 flex items-center space-x-2 transition-colors"
                         >
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
@@ -144,14 +144,14 @@ export default function Navbar({ onSearch }: NavbarProps) {
                             router.push('/admin/users');
                             setIsDropdownOpen(false);
                           }}
-                          className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center space-x-2"
+                          className="w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-800 flex items-center space-x-2 transition-colors"
                         >
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                           </svg>
                           <span>Utilisateurs</span>
                         </button>
-                        <div className="border-t border-gray-200 my-2"></div>
+                        <div className="border-t border-gray-700 my-2"></div>
                       </>
                     )}
 
@@ -162,7 +162,7 @@ export default function Navbar({ onSearch }: NavbarProps) {
                         setIsDropdownOpen(false);
                         router.push('/login');
                       }}
-                      className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center space-x-2"
+                      className="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-red-900/20 flex items-center space-x-2 transition-colors"
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -175,7 +175,7 @@ export default function Navbar({ onSearch }: NavbarProps) {
             ) : (
               <button
                 onClick={() => router.push('/login')}
-                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors font-medium"
               >
                 Connexion
               </button>

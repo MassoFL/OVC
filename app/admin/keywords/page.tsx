@@ -93,67 +93,67 @@ export default function KeywordsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-xl">Chargement...</p>
+      <div className="min-h-screen flex items-center justify-center bg-[#000000]">
+        <p className="text-xl text-white">Chargement...</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
+    <div className="min-h-screen bg-[#000000] p-8">
       <div className="max-w-4xl mx-auto">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900">
+          <h1 className="text-4xl font-bold text-white">
             Gestion des Mots-Clés
           </h1>
           <button
             onClick={() => router.push('/')}
-            className="text-blue-600 hover:text-blue-800"
+            className="text-[#3AB5C2] hover:text-[#3AB5C2]/80 transition-colors"
           >
             ← Retour aux articles
           </button>
         </div>
 
         {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          <div className="bg-[#EC665C]/10 border border-[#EC665C] text-[#EC665C] px-4 py-3 rounded mb-4">
             {error}
           </div>
         )}
 
         {/* Formulaire d'ajout */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-          <h2 className="text-2xl font-semibold mb-4">Ajouter un mot-clé</h2>
+        <div className="bg-[#213265] rounded-lg shadow-lg p-6 mb-8 border border-[#3AB5C2]/20">
+          <h2 className="text-2xl font-semibold mb-4 text-white">Ajouter un mot-clé</h2>
           <form onSubmit={handleAddKeyword} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-300 mb-2">
                   Mot-clé *
                 </label>
                 <input
                   type="text"
                   value={newKeyword}
                   onChange={(e) => setNewKeyword(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 bg-[#000000] border border-[#3AB5C2]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3AB5C2] text-white placeholder-gray-500"
                   placeholder="Ex: intelligence artificielle"
                   required
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-300 mb-2">
                   Catégorie
                 </label>
                 <input
                   type="text"
                   value={newCategory}
                   onChange={(e) => setNewCategory(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 bg-[#000000] border border-[#3AB5C2]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3AB5C2] text-white placeholder-gray-500"
                   placeholder="Ex: Technologie"
                 />
               </div>
             </div>
             <button
               type="submit"
-              className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+              className="bg-[#3AB5C2] text-white px-6 py-2 rounded-lg hover:bg-[#3AB5C2]/80 transition-colors font-medium"
             >
               Ajouter
             </button>
@@ -161,33 +161,33 @@ export default function KeywordsPage() {
         </div>
 
         {/* Liste des mots-clés */}
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-2xl font-semibold mb-4">
+        <div className="bg-[#213265] rounded-lg shadow-lg p-6 border border-[#3AB5C2]/20">
+          <h2 className="text-2xl font-semibold mb-4 text-white">
             Mots-clés ({keywords.length})
           </h2>
           
           {keywords.length === 0 ? (
-            <p className="text-gray-600">Aucun mot-clé pour le moment.</p>
+            <p className="text-gray-400">Aucun mot-clé pour le moment.</p>
           ) : (
             <div className="space-y-2">
               {keywords.map((keyword) => (
                 <div
                   key={keyword.id}
-                  className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50"
+                  className="flex items-center justify-between p-4 border border-[#3AB5C2]/20 rounded-lg hover:bg-[#000000]/30 transition-colors"
                 >
                   <div className="flex-1">
-                    <span className="font-medium text-gray-900">
+                    <span className="font-medium text-white">
                       {keyword.keyword}
                     </span>
                     {keyword.category && (
-                      <span className="ml-3 text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">
+                      <span className="ml-3 text-sm text-gray-300 bg-[#3AB5C2]/20 px-2 py-1 rounded">
                         {keyword.category}
                       </span>
                     )}
                   </div>
                   <button
                     onClick={() => handleDelete(keyword.id)}
-                    className="text-red-600 hover:text-red-800 ml-4"
+                    className="text-[#EC665C] hover:text-[#EC665C]/80 ml-4 transition-colors"
                   >
                     Supprimer
                   </button>
